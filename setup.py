@@ -8,7 +8,7 @@ with open(path.join(here, "README.md"), encoding="utf-8") as f:
 
 setup(
     name="ffmpeg-gpt",
-    version="0.1.0",
+    version="0.1.1",
     packages=find_packages(exclude=["tests"]),
     install_requires=[
         "openai==0.27.8"

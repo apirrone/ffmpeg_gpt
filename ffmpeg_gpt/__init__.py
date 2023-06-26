@@ -22,23 +22,15 @@ def main():
             print("Cancelling")
             return
 
-        _stdout = ""
-        # history = subprocess.run(script, shell=True)
-        p = subprocess.Popen(
-            script, shell=True, stdout=subprocess.PIPE
-        )  # launch the process
-        while p.poll() is None:  # check if the process is still alive
-            out = p.stdout.readline()  # if it is still alive, grab the output
-            print(out.decode("utf-8"))  # and print it
-            _stdout += out.decode("utf-8")
+        with open(".tmp.sh", "w") as f:
+            f.write(script)
 
-        print("aaaaaaa")
-        print(_stdout)
-        print("=================================")
-        exit()
+        subprocess.run("bash .tmp.sh 2>&1 | tee .tmp.txt", shell=True)
+
+        out = open(".tmp.txt", "r").read()
 
         if not yesno("Did it work ?"):
             if yesno("Do you want to iterate ?"):
-                script = rerun(args.prompt, script, _stdout)
+                script = rerun(args.prompt, script, out)
         else:
             run_again = False
